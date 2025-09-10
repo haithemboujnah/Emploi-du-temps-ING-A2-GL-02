@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emploi du temps ING-A2-GL-02-1</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #4361ee;
+    --cours: #4cc9f0;
+    --tp: #7209b7;
+    --td: #f72585;
+    --border-radius: 12px;
+    --transition: all 0.3s ease;
+  }
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: #eef2f7;
+    padding: 20px;
+    color: #212529;
+  }
+  h1 { text-align: center; margin-bottom: 20px; color: var(--primary); }
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+    table-layout: fixed;
+  }
+  th, td {
+    padding: 12px;
+    text-align: center;
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+  }
+  th {
+    background: var(--primary);
+    color: white;
+  }
+  td {
+    background: white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  }
+
+
+    td.stacked .top,
+    td.stacked .bottom {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+    color: white;
+    font-weight: 500;
+    }
+
+    td.stacked .bottom {
+    border-bottom: none;
+    }
+
+  td.cours { background: var(--cours); color: white; }
+  td.tp { background: var(--tp); color: white; }
+  td.td { background: var(--td); color: white; }
+  td:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+  .cell-detail { font-size: 0.8em; margin-top: 6px; display: block; }
+  .legend { display: flex; justify-content: center; gap: 20px; margin-top: 30px; }
+  .legend-item { display: flex; align-items: center; gap: 8px; }
+  .legend-color { width: 20px; height: 20px; border-radius: 4px; }
+  .legend-cours { background: var(--cours); }
+  .legend-tp { background: var(--tp); }
+  .legend-td { background: var(--td); }
+</style>
+</head>
+<body>
+
+<h1>Emploi du temps ING-A2-GL-02-1</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Jour / Heure</th>
+      <th>08H30-10H00</th>
+      <th>10H10-11H40</th>
+      <th>11H50-13H20</th>
+      <th>13H50-15H20</th>
+      <th>15H30-17H00</th>
+      <th>17H10-18H40</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Lundi</td>
+      <td class="cours">Dév Avancé <span class="cell-detail">KHEMAJA Maha | C | I-14 | H</span></td>
+      <td class="cours">Sécurité des réseaux <span class="cell-detail">MTIBAA Riadh | C | G19 | H</span></td>
+      <td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td>Mardi</td>
+      <td class="tp" colspan="2">Sécurité des réseaux <span class="cell-detail">MTIBAA Riadh | TP | G12 | QB</span></td>
+      <td></td>
+      <td class="cours">Dév Web <span class="cell-detail">ZARROUK Elyes | C | G21 | H</span></td>
+      <td></td><td></td>
+    </tr>
+    <tr>
+      <td>Mercredi</td>
+      <td class="cours">Admin Réseaux <span class="cell-detail">BELHAJ MOHAMED | C | Amphi GOLLI | QA</span></td>
+      <td class="td">Théorie Files <span class="cell-detail">ILJI Samia | TD | K10 | H</span></td>
+      <td class="cours">SGBD & Admin <span class="cell-detail">ATTIAOUI Walid | C | I-15 | H</span></td>
+      <td></td>
+      <td class="tp stacked" colspan="2">
+        <div class="top">Middlewares<span class="cell-detail">JABLA Roua | TP | G17 | QA</span></div>
+        <div class="bottom">Analyse Numérique<span class="cell-detail">ROUATBI Asma | TP | G08 | Z1</span></div>
+      </td>
+    </tr>
+    <tr>
+      <td>Jeudi</td>
+      <td class="cours">Middlewares <span class="cell-detail">JABLA Roua | C | G20 | QB</span></td>
+      <td class="cours">Théorie Files <span class="cell-detail">ROUIS Moeiz | C | M02 | H</span></td>
+      <td class="td">Analyse Numérique <span class="cell-detail">ROUATBI Asma | TD | I-19 | QA</span></td>
+      <td class="cours">Français 3 <span class="cell-detail">HASSINE Hela | C | I-07 | H</span></td>
+      <td></td><td></td>
+    </tr>
+    <tr>
+      <td>Vendredi</td>
+      <td class="cours">Analyse Numérique <span class="cell-detail">ROUATBI Asma | C | I-05 | H</span></td>
+      <td class="cours">Anglais 3 <span class="cell-detail">DHOUKAR Aida | C | I-02 | H</span></td>
+      <td class="tp" colspan="2">SGBD & Admin <span class="cell-detail">CHTIQUI Houssemeddine | TP | G04 | QB</span></td>
+      <td class="tp" colspan="2">Admin Réseaux <span class="cell-detail">BELHAJ MOHAMED | TP | G16 | Z2</span></td>
+    </tr>
+    <tr>
+      <td>Samedi</td>
+      <td class="cours">IHM <span class="cell-detail">MAALEL Ahmed | C | K09 | H</span></td>
+      <td></td>
+      <td class="tp" colspan="2">Développement Web <span class="cell-detail">BEN AHMED Sofiene | TP | G01 | QB</span></td>
+      <td></td><td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-color legend-cours"></div>Cours</div>
+  <div class="legend-item"><div class="legend-color legend-tp"></div>TP</div>
+  <div class="legend-item"><div class="legend-color legend-td"></div>TD</div>
+</div>
+
+</body>
+</html>

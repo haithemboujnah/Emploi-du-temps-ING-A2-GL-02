@@ -105,11 +105,12 @@
             background: white;
             box-shadow: var(--shadow);
         }
-        .current-week {
-            background-color: #ffd166;
-            color: #ff0000;
+        .semester-table tr.current-week {
+            background-color: #ffd166 !important;
+            color: #b82e2e !important;
             font-weight: bold;
         }
+
         .schedule-table td.stacked .top, .schedule-table td.stacked .bottom {
             flex: 1;
             display: flex;
@@ -178,11 +179,12 @@
             color: white;
             font-weight: bold;
         }
-        .vacances {
-            background-color: var(--vacances);
+        .semester-table tr.vacances td {
+            background-color: var(--vacances) !important;
             color: white;
             font-weight: bold;
         }
+
         .legend {
             display: flex;
             justify-content: center;
@@ -355,10 +357,10 @@
                     <tr>
                         <td>Jeudi</td>
                         <td class="cours" data-type="QB">Middlewares <span class="cell-detail">JABLA Roua | C | G20 | QB</span></td>
-                        <td class="cours" data-type="H">Théorie Files <span class="cell-detail">ROUIS Moeiz | C | I-11 | H</span></td>
+                        <td class="cours" data-type="H">Théorie Files <span class="cell-detail">ROUIS Moeiz | C | K07 | H</span></td>
                         <td class="td" data-type="QA">Analyse Numérique <span class="cell-detail">ROUATBI Asma | TD | I-19 | QA</span></td>
                         <td class="pause">Pause</td>
-                        <td class="cours" data-type="H">Français 3 <span class="cell-detail">HASSINE Hela | C | I-07 | H</span></td>
+                        <td class="cours" data-type="H">Français 3 <span class="cell-detail">HASSINE Hela | C | K10 | H</span></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -375,7 +377,7 @@
                     <!-- Samedi -->
                     <tr>
                         <td>Samedi</td>
-                        <td class="cours" data-type="H">IHM <span class="cell-detail">MAALEL Ahmed | C | K09 | H</span></td>
+                        <td class="cours" data-type="H">IHM <span class="cell-detail">MAALEL Ahmed | C | I-18 | H</span></td>
                         <td class="cours" data-type="H">Comptabilité analytique <span class="cell-detail">HAMMAMI Souad | C | M16 | H</span></td>
                         <td class="td" data-type="H">Théorie des Files d'attente <span class="cell-detail">ILJI Samia | TD | I-10 | H</span></td>
                         <td></td>
@@ -415,7 +417,7 @@
                     </tr>
                     <tr>
                         <td>2</td>
-                        <td>15-1/09</td>
+                        <td>15-21/09</td>
                         <td>B</td>
                         <td>-</td>
                         <td>M1</td>
@@ -585,59 +587,86 @@
         }
         
         function parsePeriod(str) {
-            // Exemple : "08-13/09" -> renvoie [startDate, endDate]
-            const [days, monthStr] = str.split('/'); // "08-13", "09"
-            const [startDay, endDay] = days.split('-'); // "08", "13"
-            const month = parseInt(monthStr, 10) - 1; // JS month 0-index
+            // Gère "08-13/09" et "29/09-5/10"
+            const parts = str.split('-');
+            if (parts.length !== 2) return [null, null];
+
+            let startPart = parts[0]; 
+            let endPart = parts[1];   
+
             const year = new Date().getFullYear();
-            const startDate = new Date(year, month, parseInt(startDay, 10));
-            const endDate = new Date(year, month, parseInt(endDay, 10));
+
+            let startDay, startMonth, endDay, endMonth;
+
+            if (startPart.includes('/')) {
+                [startDay, startMonth] = startPart.split('/').map(Number);
+            } else {
+                startDay = Number(startPart);
+                startMonth = null;
+            }
+
+            if (endPart.includes('/')) {
+                [endDay, endMonth] = endPart.split('/').map(Number);
+            } else {
+                endDay = Number(endPart);
+                endMonth = startMonth;
+            }
+
+            if (startMonth === null) {
+                startMonth = endMonth;
+            }
+
+            const startDate = new Date(year, startMonth - 1, startDay, 0, 0, 0, 0);
+            const endDate = new Date(year, endMonth - 1, endDay, 23, 59, 59, 999);
+
             return [startDate, endDate];
         }
-        
+
         function determineCurrentWeekType() {
             const today = new Date();
             let weekFound = false;
-            
+
             document.querySelectorAll('.semester-table tbody tr').forEach(row => {
                 if (weekFound) return;
-                
+
                 const periodeCell = row.cells[1];
                 if (!periodeCell) return;
-                
+
                 const periodeText = periodeCell.textContent.trim();
                 if (!periodeText.includes('-') || periodeText.includes('Vacances')) return;
-                
+
                 const [startDate, endDate] = parsePeriod(periodeText);
-                
+
+                if (!startDate || !endDate) return;
+
                 if (today >= startDate && today <= endDate) {
                     const weekTypeCell = row.cells[2];
                     const ziTypeCell = row.cells[3];
-                    
+
                     if (weekTypeCell) {
                         currentWeekType = weekTypeCell.textContent.trim();
                         currentZiType = ziTypeCell ? ziTypeCell.textContent.trim() : '';
                         weekFound = true;
-                        
-                        // Mettre à jour l'affichage de la semaine
+
                         let infoText = `Semaine en cours: ${currentWeekType}`;
                         if (currentZiType && currentZiType !== '-') {
                             infoText += `, Type Zi: ${currentZiType}`;
                         }
                         infoText += ` (${periodeText})`;
-                        
+
                         document.getElementById('week-info').textContent = infoText;
                     }
                 }
             });
-            
+
             if (!weekFound) {
-                currentWeekType = 'A'; // Valeur par défaut
+                currentWeekType = 'A';
                 currentZiType = '';
-                document.getElementById('week-info').textContent = 
+                document.getElementById('week-info').textContent =
                     "Hors période scolaire - Affichage par défaut (Semaine A)";
             }
         }
+
         
         function filterScheduleByType(weekType, ziType) {
             // Définir quels types de cours doivent être affichés selon la semaine
@@ -724,17 +753,21 @@
             document.querySelectorAll('.semester-table tbody tr').forEach(row => {
                 const periodeCell = row.cells[1];
                 if (!periodeCell) return;
-                
+
                 const periodeText = periodeCell.textContent.trim();
-                if (!periodeText.includes('-') || periodeText.includes('Vacances')) return;
-                
+                if (!periodeText.includes('-')) return;
+
                 const [startDate, endDate] = parsePeriod(periodeText);
-                
+                if (!startDate || !endDate) return;
+
                 if (today >= startDate && today <= endDate) {
                     row.classList.add('current-week');
+                } else {
+                    row.classList.remove('current-week');
                 }
             });
         }
+
         
         // Initialisation au chargement de la page
         window.addEventListener('DOMContentLoaded', function() {

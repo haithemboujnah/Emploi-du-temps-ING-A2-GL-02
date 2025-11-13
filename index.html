@@ -15,6 +15,7 @@
             --pause: #ffeec2;
             --semaine-ds: #fb8500;
             --vacances: #90be6d;
+            --examens: #e66139;
             --border-radius: 12px;
             --transition: all 0.3s ease;
             --shadow: 0 4px 10px rgba(0,0,0,0.05);
@@ -184,6 +185,11 @@
             color: white;
             font-weight: bold;
         }
+        .semester-table tr.examens td {
+            background-color: var(--examens) !important;
+            color: white;
+            font-weight: bold;
+        }
 
         .legend {
             display: flex;
@@ -219,6 +225,9 @@
         }
         .legend-vacances {
             background: var(--vacances);
+        }
+        .legend-examens {
+            background: var(--examens);
         }
         .legend-hidden {
             background: var(--hidden-item);
@@ -521,11 +530,19 @@
                         <td></td>
                         <td></td>
                     </tr>
+                    <tr class="examens">
+                        <td>***</td>
+                        <td>05-18/01</td>
+                        <td>Examens</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
                 </tbody>
             </table>
             <div class="legend">
                 <div class="legend-item"><div class="legend-color legend-semaine-ds"></div>Semaine des DS</div>
                 <div class="legend-item"><div class="legend-color legend-vacances"></div>Vacances</div>
+                <div class="legend-item"><div class="legend-color legend-examens"></div>Examens</div>
             </div>
         </div>
     </div>
@@ -634,7 +651,7 @@
                 if (!periodeCell) return;
 
                 const periodeText = periodeCell.textContent.trim();
-                if (!periodeText.includes('-') || periodeText.includes('Vacances')) return;
+                if (!periodeText.includes('-') || periodeText.includes('Vacances') || periodeText.includes('Examens')) return;
 
                 const [startDate, endDate] = parsePeriod(periodeText);
 
